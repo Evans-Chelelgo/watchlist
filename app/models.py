@@ -1,3 +1,4 @@
+from . import db
 class Movie:
     '''
     Movie class to define Movie Objects
@@ -35,3 +36,11 @@ class Review:
                 response.append(review)
             
         return response
+class User(db.module):
+    __tablename__ = 'users'
+    id = db.Column(db.integer, primary_key = True)
+    
+    user_name = db.Column(db.string(255))
+    
+    def __repr__(self):
+        return f'User{self.username}'

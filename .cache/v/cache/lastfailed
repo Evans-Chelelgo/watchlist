@@ -1,1 +1,3 @@
-{}
+{
+  "tests/movie_test.py": true
+}

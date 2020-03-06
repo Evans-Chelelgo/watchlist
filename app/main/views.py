@@ -1,6 +1,6 @@
 from flask import render_template,request,redirect,url_for
 from . import main
-from ..requests import get_movies,get_movie,search_movie
+from ..request import get_movies,get_movie,search_movie
 from . forms import ReviewForm
 from .. models import Review
 
@@ -19,13 +19,13 @@ def index():
     search_movie = request.args.get('movie_query')
     
     if search_movie:
-        return redirect(url_for('.index',movie_name=search_movie))
+        return redirect(url_for('main.search',movie_name=search_movie))
     else:
         return render_template('index.html', title = title,popular = popular_movies, upcoming = upcoming_movies, now_playing = now_showing_movie )
 
 
-@main.route('/movie/<movie_id>')
-def movie(movie_id):
+@main.route('/movie/<int:id>')
+def movie(id):
 
     '''
     view movie page function that returns the movie details page and its data
@@ -34,7 +34,7 @@ def movie(movie_id):
     movie = get_movie(id)
     title = movie.title
     print(title)    
-    return render_template('movie.html',title=title, movie = movie, reviews = reviews)
+    return render_template('movie.html',title=title, movie = movie )
 
 
 @main.route('/search/<movie_name>')
@@ -58,8 +58,8 @@ def new_review(id):
         review = form.review.data
         new_review = Review(movie.id,title,movie.poster,review)
         new_review.save_review()
-        return redirect(url_for('.new_review',id = movie.id ))
+        return redirect(url_for('main.new_review',id = movie.id ))
     title = f'{movie.title} review'
-    return render_template('new_review.html',title = title, review_form=form,movie=movie)
+    return render_template('new_review.html',title = title, review_form=form,movie=movie )
     
           
