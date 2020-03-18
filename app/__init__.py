@@ -2,13 +2,15 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from config import config_options
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 bootstrap = Bootstrap()
-db =    SQLAlchemy()
+db = SQLAlchemy()
 
 def create_app(config_name):
     app = Flask(__name__)
-    
+    app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql+psycopg2://ubunifu:evans1234@localhost/watchlist'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     db.init_app(app)
     # Creating the app configurations
     app.config.from_object(config_options[config_name])
